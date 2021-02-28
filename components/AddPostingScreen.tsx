@@ -36,7 +36,7 @@ class AddPostingScreen extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': Settings.apiKey,
+        'Authorization': 'Bearer ' + Settings.apiKey,
       },
       body: JSON.stringify(this.props)
     });
