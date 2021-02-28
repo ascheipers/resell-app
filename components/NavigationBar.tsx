@@ -8,9 +8,9 @@ import settings from '../settings';
 
 class NavigationBar extends Component {
 
-  openUser() {
+  openUser(props) {
     if (settings.apiKey) {
-      this.props.navigation.navigate('NewPosting')
+      this.props.navigation.navigate('AddPosting')
     } else {
       this.props.navigation.navigate('Login')
     }
@@ -21,7 +21,7 @@ class NavigationBar extends Component {
       <View style={styles.wrapper}>
         <Text style={styles.title}>{this.props.title}</Text>
         <View  style={styles.userIconWrapper}>
-          <TouchableHighlight style={styles.userIcon} onPress={this.openUser}>
+          <TouchableHighlight style={styles.userIcon} onPress={this.openUser(() => this.props.navigation.navigate('Signup'))}>
             <FontAwesome name='plus-circle' size={24} color='white' />
           </TouchableHighlight>
         </View>
