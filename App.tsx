@@ -9,6 +9,7 @@ import AddPostingScreen from './components/AddPostingScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { FontAwesome } from '@expo/vector-icons'; 
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -20,10 +21,13 @@ export default function App() {
           options={({ navigation }) => ({
             headerTitle: 'All Postings',
             headerRight: () => (
-              <View style={{marginRight: 15}}>
-                <TouchableHighlight onPress={() => navigation.navigate('AddPosting')}>
+              <View style={{marginRight: 15, flexDirection: 'row', width: 60, justifyContent: 'space-between'}}>
+                <TouchableOpacity onPress={() => navigation.navigate('AddPosting')}>
                   <FontAwesome name='plus-circle' size={24} color='white' />
-                </TouchableHighlight>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                  <FontAwesome name='user' size={24} color='white' />
+                </TouchableOpacity>
               </View>
             ),
             headerStyle: {backgroundColor: '#260077'},
