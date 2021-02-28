@@ -3,6 +3,7 @@ import { Button, Text, TextInput, View, Image, StyleSheet } from 'react-native';
 import CustomLinkButton from './CustomLinkButton';
 import CustomButton from './CutomButton';
 import InputField from './InputField';
+import settings from './../settings'
 
 class LoginScreen extends Component {
 
@@ -42,12 +43,14 @@ class LoginScreen extends Component {
     });
 
     const json = await res.json();
-    console.log(json)
+    console.log(settings)
 
     if(res.status !== 200) {
       alert('Login failed!')
     } else {
       alert('Login successfull!')
+      settings.apiKey = json.token;
+      this.props.navigation.navigate('Login')
     }
   }
   
