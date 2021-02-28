@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Text, TextInput, View, StyleSheet } from 'react-native';
+import { Button, Text, TextInput, View, StyleSheet, RefreshControl } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import CustomButton from './CutomButton';
@@ -14,6 +14,7 @@ class PostingsListScreen extends Component {
  
     this.state = {
       postings: [],
+      refreshing: false,
     };
 
     this.fetchPostings=this.fetchPostings.bind(this);
@@ -21,6 +22,13 @@ class PostingsListScreen extends Component {
   
   componentDidMount() {
     this.fetchPostings();
+  }
+
+  _onRefresh() {
+    this.setState({refreshing: true});
+    this.fetchPostings().then(() => {
+      this.setState({refreshing: false});
+    });
   }
   
   async fetchPostings() {
@@ -36,6 +44,8 @@ class PostingsListScreen extends Component {
       const json = await res.json();
       this.setState({ postings: json });
     }
+
+    this.setState({refreshing: false});
   }
   
   render() {
@@ -49,7 +59,13 @@ class PostingsListScreen extends Component {
           paddingLeft: 10,
           paddingRight: 10,
           }}>
-          <ScrollView style={{alignSelf: 'stretch',}}>
+          <ScrollView style={{alignSelf: 'stretch',}}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }>
             <View style={{alignSelf: 'stretch', alignItems: 'center'}}>
               <View style={{width: 250}}>
                 {
