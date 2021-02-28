@@ -41,7 +41,6 @@ class PostingsListScreen extends Component {
   render() {
     return (
       <View>
-        <NavigationBar title='All Postings' />
         <View style={{
           alignSelf: 'stretch',
           backgroundColor: '#fff',
