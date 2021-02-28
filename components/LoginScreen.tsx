@@ -30,10 +30,10 @@ class LoginScreen extends Component {
             fontSize: 25
           }}>REsell Login</Text>
           <View style={{ marginBottom: 20 }}></View>
-          <InputField title="Email or Alias"/>
-          <InputField title="Password"/>
+          <InputField title="Email or Alias" onChangeText={text => {this.setState({ emailOrAlias: text})}} />
+          <InputField title="Password" onChangeText={text => {this.setState({ password: text})}} />
           <CustomButton
-            onPress={() => this.props.navigation.navigate('Login')}
+            onPress={this.login}
             title="Login"
           />
           <View style={{ marginBottom: 20 }}></View>

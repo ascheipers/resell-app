@@ -17,7 +17,7 @@ class InputField extends Component {
         <View style={{alignSelf: "stretch",}}>
           <Text>{this.props.title}</Text>
           <TextInput
-            onChange={text => {this.setState({ content: text })}}
+            onChangeText={text => {this.props.onChangeText(text)}}
             placeholder={this.props.title}
             style={styles.input} />
         </View>
