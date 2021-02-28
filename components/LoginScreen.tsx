@@ -4,6 +4,7 @@ import CustomLinkButton from './CustomLinkButton';
 import CustomButton from './CutomButton';
 import InputField from './InputField';
 import settings from './../settings'
+import Settings from './../settings';
 
 class LoginScreen extends Component {
 
@@ -33,7 +34,7 @@ class LoginScreen extends Component {
       }
     }
 
-    const res = await fetch('http://api.scheipe.rs/resell/v1/login', {
+    const res = await fetch(`${Settings.apiBaseURL}resell/v1/login`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

@@ -1,3 +1,4 @@
 export default {
-  apiKey: undefined
+  apiKey: undefined,
+  apiBaseURL: 'http://192.168.56.1:8080/'
 }

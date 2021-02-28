@@ -7,6 +7,7 @@ import InputField from './InputField';
 import { Platform } from 'react-native';
 import NavigationBar from './NavigationBar';
 import PostingLisItem from './PostingListItem';
+import Settings from '../settings';
 
 class PostingsListScreen extends Component {
   constructor(props) {
@@ -32,20 +33,24 @@ class PostingsListScreen extends Component {
   }
   
   async fetchPostings() {
-    const res = await fetch('http://api.scheipe.rs/resell/v1/postings', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+    try {
+      const res = await fetch(`${Settings.apiBaseURL}resell/v1/postings`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (res.status === 200) {
+        const json = await res.json();
+        this.setState({ postings: json });
       }
-    });
-
-    if (res.status === 200) {
-      const json = await res.json();
-      this.setState({ postings: json });
+  
+      this.setState({refreshing: false});
+    } catch (error) {
+      console.error(error);
     }
-
-    this.setState({refreshing: false});
   }
   
   render() {
