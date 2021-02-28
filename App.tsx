@@ -34,8 +34,8 @@ export default function App() {
             headerTitleStyle: {color: 'white'}
           })}/>
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen name="AddPosting" component={AddPostingScreen} />
+        <Stack.Screen name="Signup" component={SignupScreen} options={{ headerTitle: 'Sign Up'}}/>
+        <Stack.Screen name="AddPosting" component={AddPostingScreen} options={{ headerTitle: 'Create Posting'}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
