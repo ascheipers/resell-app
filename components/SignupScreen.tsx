@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
 import { Button, Text, TextInput, View, StyleSheet } from 'react-native';
-import * as ImagePicker from "react-native-image-picker"
+import * as ImagePicker from 'expo-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import CustomButton from './CutomButton';
 import InputField from './InputField';
+import { Platform } from 'react-native';
 
 class SignupScreen extends Component {
-  selectFile = () => {
-    ImagePicker.launchImageLibrary({mediaType: 'photo'}, res => {
-      console.log('Response = ', res);
-
-      if (res.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (res.error) {
-        console.log('ImagePicker Error: ', res.error);
-      } else if (res.customButton) {
-        console.log('User tapped custom button: ', res.customButton);
-        alert(res.customButton);
-      } else {
-        let source = res;
-        this.setState({
-          resourcePath: source,
-        });
+  async selectImage () {
+    if (Platform.OS !== 'web') {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
       }
-    });
-  };
+    }
 
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      alert(result.uri);
+    }
+  };
   
   render() {
     return (
@@ -56,7 +56,7 @@ class SignupScreen extends Component {
               <InputField title="Country Name"/>
               <InputField title="Password"/>
               <CustomButton
-                onPress={this.selectFile}
+                onPress={this.selectImage}
                 title="Add Profile Picture ..."
               />
               
