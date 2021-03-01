@@ -5,8 +5,64 @@ import { ScrollView } from 'react-native-gesture-handler';
 import CustomButton from './CutomButton';
 import InputField from './InputField';
 import { Platform } from 'react-native';
+import Settings from '../settings';
 
 class SignupScreen extends Component {
+  constructor(props) {
+    super(props);
+ 
+    this.state = {
+      alias: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+      street: '',
+      city: '',
+      country: '',
+      password: '',
+    };
+
+    this.signUp=this.signUp.bind(this);
+  }
+
+  async signUp() {
+    const requestData = {
+      alias: this.state.alias,
+      email : this.state.email,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      address: {
+        street: this.state.street,
+        city: this.state.city,
+        country: this.state.country,
+      },
+      password: this.state.password,
+      profilePicture: '',
+    }
+    try {
+      const res = await fetch(`${Settings.apiBaseURL}resell/v1/users`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData)
+      });
+  
+      const json = await res.json();
+      console.log(json)
+      if (res.status === 200) {
+        alert('User created sucessfully!');
+        this.props.navigation.navigate('Login');
+      } else {
+        alert('There was aproblem creating the user.');
+      }
+    } catch (error) {
+      console.log(error);
+      alert('There was aproblem creating the user.');
+    }
+  }
+
   async selectImage () {
     if (Platform.OS !== 'web') {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -23,7 +79,7 @@ class SignupScreen extends Component {
     });
 
     if (!result.cancelled) {
-      alert(result.uri);
+      // alert(result.uri);
     }
   };
   
@@ -47,14 +103,14 @@ class SignupScreen extends Component {
                 }}>Sign Up</Text>
               </View>
 
-              <InputField title="Alias"/>
-              <InputField title="Email"/>
-              <InputField title="First Name"/>
-              <InputField title="Last Name"/>
-              <InputField title="Street Name"/>
-              <InputField title="City Name"/>
-              <InputField title="Country Name"/>
-              <InputField title="Password"/>
+              <InputField title="Alias" onChangeText={text => {this.setState({ alias: text})}}/>
+              <InputField title="Email" onChangeText={text => {this.setState({ email: text})}}/>
+              <InputField title="First Name" onChangeText={text => {this.setState({ firstName: text})}}/>
+              <InputField title="Last Name" onChangeText={text => {this.setState({ lastName: text})}}/>
+              <InputField title="Street Name" onChangeText={text => {this.setState({ street: text})}}/>
+              <InputField title="City Name" onChangeText={text => {this.setState({ city: text})}}/>
+              <InputField title="Country Name" onChangeText={text => {this.setState({ country: text})}}/>
+              <InputField title="Password" onChangeText={text => {this.setState({ password: text})}}/>
               <CustomButton
                 onPress={this.selectImage}
                 title="Add Profile Picture ..."
@@ -62,7 +118,7 @@ class SignupScreen extends Component {
               
               <View style={{ marginBottom: 10 }}></View>
               <CustomButton
-                onPress={() => this.props.navigation.navigate('Login')}
+                onPress={this.signUp}
                 title="Sign Up"
               />
               <View style={{ marginBottom: 30 }}></View>
