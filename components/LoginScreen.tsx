@@ -49,9 +49,10 @@ class LoginScreen extends Component {
     if(res.status !== 200) {
       alert('Login failed!')
     } else {
-      alert('Login successfull!')
+      alert('Login successfull!');
       settings.apiKey = json.token;
-      this.props.navigation.navigate('Login')
+      settings.userId = json.id;
+      this.props.navigation.navigate('PostingsList');
     }
   }
   
