@@ -57,7 +57,10 @@ class AddPostingScreen extends Component {
     const json = await res.json();
     console.log(json)
     if (res.status === 200) {
-      
+      alert('Posting created sucessfully!');
+      this.props.navigation.navigate('PostingsList');
+    } else {
+      alert('There was aproblem creating the posting. Maybe try to log in again.');
     }
   }
   
